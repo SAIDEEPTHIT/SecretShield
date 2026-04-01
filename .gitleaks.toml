@@ -1,0 +1,38 @@
+[extend]
+useDefault = true
+
+title = "SecretShield Custom Rules"
+
+[[rules]]
+id = "indian-api-key"
+description = "Detects generic API key assignment"
+regex = '''(?i)(api_key|apikey|api-key)\s*=\s*['"][a-zA-Z0-9]{16,}['"]'''
+severity = "HIGH"
+tags = ["secret", "api"]
+
+[[rules]]
+id = "hardcoded-password"
+description = "Detects hardcoded password assignment"
+regex = '''(?i)(password|passwd|pwd)\s*=\s*['"][^'"]{6,}['"]'''
+severity = "CRITICAL"
+tags = ["secret", "password"]
+
+[[rules]]
+id = "database-url"
+description = "Detects hardcoded database connection strings"
+regex = '''(?i)(mongodb|mysql|postgres|sqlite)://[^\s"']{8,}'''
+severity = "HIGH"
+tags = ["secret", "database"]
+
+[[rules]]
+id = "jwt-secret"
+description = "Detects hardcoded JWT secrets"
+regex = '''(?i)(jwt_secret|secret_key)\s*=\s*['"][^'"]{8,}['"]'''
+severity = "CRITICAL"
+tags = ["secret", "jwt"]
+
+[[allowlist]]
+description = "Ignore test demo files"
+paths = [
+  '''demo_bad_commit\.py'''
+]
